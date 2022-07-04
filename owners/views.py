@@ -21,17 +21,18 @@ class OwnersView(View):
 
         for owner in owners2:
             for dog in dogs2:
-                results.append(
-                    {
-                        "owner_name" : owner.name,
-                        "email" : owner.email,
-                        "age" : owner.age,
-                        "my_dog" : {
-                            "dog_name" : dog.name,
-                            "dog_age" : dog.age
+                if dog.owner_id == owner.id:
+                    results.append(
+                        {
+                            "owner_name" : owner.name,
+                            "email" : owner.email,
+                            "age" : owner.age,
+                            "my_dog" : {
+                                "dog_name" : dog.name,
+                                "dog_age" : dog.age
+                            }
                         }
-                    }
-                )
+                    )
         return JsonResponse({'results':results}, status=200)
 
 class DogsView(View):
@@ -47,12 +48,13 @@ class DogsView(View):
 
         for owner in owners2:
             for dog in dogs2:
-                results.append(
-                    {
-                        "dog_name" : dog.name,
-                        "dog_age" : dog.age,
-                        "owner_name" : owner.name
+                if dog.owner_id == owner.id:
+                    results.append(
+                        {
+                            "dog_name" : dog.name,
+                            "dog_age" : dog.age,
+                            "owner_name" : owner.name
 
-                    }
-                )
+                        }
+                    )
         return JsonResponse({'results':results}, status=200)
