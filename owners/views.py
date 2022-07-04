@@ -12,5 +12,11 @@ class OwnersView(View):
     def post(self, request):
         data = json.loads(request.body)
         owner1 = Owner.objects.create(name=data['owner_name'], email=data['email'], age=data['owner_age'])
-        dog1 = Dog.objects.create(owner=owner1, name=data['dog_name'], age=data['dog_age'])
+        return JsonResponse({'message':'created'}, status=201)
+
+
+class DogsView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        dog1 = Dog.objects.create(owner=Owner.objects.get(name=data['owner_name']), name=data['dog_name'], age=data['dog_age'])
         return JsonResponse({'message':'created'}, status=201)
