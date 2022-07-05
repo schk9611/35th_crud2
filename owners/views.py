@@ -20,19 +20,18 @@ class OwnersView(View):
         results = []
 
         for owner in owners2:
+            my_dogs = []
             for dog in dogs2:
                 if dog.owner_id == owner.id:
-                    results.append(
-                        {
-                            "owner_name" : owner.name,
-                            "email" : owner.email,
-                            "age" : owner.age,
-                            "my_dog" : {
-                                "dog_name" : dog.name,
-                                "dog_age" : dog.age
-                            }
-                        }
-                    )
+                    my_dogs.append(dog.name)
+            results.append(
+                {
+                    "owner_name" : owner.name,
+                    "email" : owner.email,
+                    "age" : owner.age,
+                    "my_dog" : my_dogs
+                }
+            )
         return JsonResponse({'results':results}, status=200)
 
 class DogsView(View):
@@ -46,8 +45,8 @@ class DogsView(View):
         dogs2 = Dog.objects.all()
         results = []
 
-        for owner in owners2:
-            for dog in dogs2:
+        for dog in dogs2:
+            for owner in owners2:
                 if dog.owner_id == owner.id:
                     results.append(
                         {
